@@ -1,0 +1,222 @@
+Workload Configuration:
+PP: 2, DP: 2, TP: 2
+Microbatches: 5
+Forward Computation Time: 0.1
+Backward Computation Time: 0.1
+Forward TP Size: 1
+Backward TP Size: 1
+Forward PP Size: 1
+Backward PP Size: 1
+DP Size: 1
+--------------------------------
+Ranks:
+--------------------------------
+Rank ID: 0, TP: 0, DP: 0, PP: 0 TP Group ID: 0, DP Group ID: 4, PP Fwd Group ID: 8, PP Bwd Group ID: None, Host ID: 0
+--------------------------------
+Rank ID: 1, TP: 1, DP: 0, PP: 0 TP Group ID: 0, DP Group ID: 5, PP Fwd Group ID: 12, PP Bwd Group ID: None, Host ID: 1
+--------------------------------
+Rank ID: 2, TP: 0, DP: 1, PP: 0 TP Group ID: 1, DP Group ID: 4, PP Fwd Group ID: 10, PP Bwd Group ID: None, Host ID: 2
+--------------------------------
+Rank ID: 3, TP: 1, DP: 1, PP: 0 TP Group ID: 1, DP Group ID: 5, PP Fwd Group ID: 14, PP Bwd Group ID: None, Host ID: 3
+--------------------------------
+Rank ID: 4, TP: 0, DP: 0, PP: 1 TP Group ID: 2, DP Group ID: 6, PP Fwd Group ID: None, PP Bwd Group ID: 9, Host ID: 4
+--------------------------------
+Rank ID: 5, TP: 1, DP: 0, PP: 1 TP Group ID: 2, DP Group ID: 7, PP Fwd Group ID: None, PP Bwd Group ID: 13, Host ID: 5
+--------------------------------
+Rank ID: 6, TP: 0, DP: 1, PP: 1 TP Group ID: 3, DP Group ID: 6, PP Fwd Group ID: None, PP Bwd Group ID: 11, Host ID: 6
+--------------------------------
+Rank ID: 7, TP: 1, DP: 1, PP: 1 TP Group ID: 3, DP Group ID: 7, PP Fwd Group ID: None, PP Bwd Group ID: 15, Host ID: 7
+--------------------------------
+Groups:
+--------------------------------
+Group ID: 0, Type: TP
+Ranks in group: 
+Rank ID: 0, TP: 0, DP: 0, PP: 0 TP Group ID: 0, DP Group ID: 4, PP Fwd Group ID: 8, PP Bwd Group ID: None, Host ID: 0
+Rank ID: 1, TP: 1, DP: 0, PP: 0 TP Group ID: 0, DP Group ID: 5, PP Fwd Group ID: 12, PP Bwd Group ID: None, Host ID: 1
+Connections: Connection from Rank 0 to Rank 1, Path: 0 8 1 , Path Links: 0 3 
+Connection from Rank 1 to Rank 0, Path: 1 8 0 , Path Links: 2 1 
+--------------------------------
+Group ID: 1, Type: TP
+Ranks in group: 
+Rank ID: 2, TP: 0, DP: 1, PP: 0 TP Group ID: 1, DP Group ID: 4, PP Fwd Group ID: 10, PP Bwd Group ID: None, Host ID: 2
+Rank ID: 3, TP: 1, DP: 1, PP: 0 TP Group ID: 1, DP Group ID: 5, PP Fwd Group ID: 14, PP Bwd Group ID: None, Host ID: 3
+Connections: Connection from Rank 2 to Rank 3, Path: 2 8 3 , Path Links: 4 7 
+Connection from Rank 3 to Rank 2, Path: 3 8 2 , Path Links: 6 5 
+--------------------------------
+Group ID: 2, Type: TP
+Ranks in group: 
+Rank ID: 4, TP: 0, DP: 0, PP: 1 TP Group ID: 2, DP Group ID: 6, PP Fwd Group ID: None, PP Bwd Group ID: 9, Host ID: 4
+Rank ID: 5, TP: 1, DP: 0, PP: 1 TP Group ID: 2, DP Group ID: 7, PP Fwd Group ID: None, PP Bwd Group ID: 13, Host ID: 5
+Connections: Connection from Rank 4 to Rank 5, Path: 4 8 5 , Path Links: 8 11 
+Connection from Rank 5 to Rank 4, Path: 5 8 4 , Path Links: 10 9 
+--------------------------------
+Group ID: 3, Type: TP
+Ranks in group: 
+Rank ID: 6, TP: 0, DP: 1, PP: 1 TP Group ID: 3, DP Group ID: 6, PP Fwd Group ID: None, PP Bwd Group ID: 11, Host ID: 6
+Rank ID: 7, TP: 1, DP: 1, PP: 1 TP Group ID: 3, DP Group ID: 7, PP Fwd Group ID: None, PP Bwd Group ID: 15, Host ID: 7
+Connections: Connection from Rank 6 to Rank 7, Path: 6 8 7 , Path Links: 12 15 
+Connection from Rank 7 to Rank 6, Path: 7 8 6 , Path Links: 14 13 
+--------------------------------
+Group ID: 4, Type: DP
+Ranks in group: 
+Rank ID: 0, TP: 0, DP: 0, PP: 0 TP Group ID: 0, DP Group ID: 4, PP Fwd Group ID: 8, PP Bwd Group ID: None, Host ID: 0
+Rank ID: 2, TP: 0, DP: 1, PP: 0 TP Group ID: 1, DP Group ID: 4, PP Fwd Group ID: 10, PP Bwd Group ID: None, Host ID: 2
+Connections: Connection from Rank 0 to Rank 2, Path: 0 8 2 , Path Links: 0 5 
+Connection from Rank 2 to Rank 0, Path: 2 8 0 , Path Links: 4 1 
+--------------------------------
+Group ID: 5, Type: DP
+Ranks in group: 
+Rank ID: 1, TP: 1, DP: 0, PP: 0 TP Group ID: 0, DP Group ID: 5, PP Fwd Group ID: 12, PP Bwd Group ID: None, Host ID: 1
+Rank ID: 3, TP: 1, DP: 1, PP: 0 TP Group ID: 1, DP Group ID: 5, PP Fwd Group ID: 14, PP Bwd Group ID: None, Host ID: 3
+Connections: Connection from Rank 1 to Rank 3, Path: 1 8 3 , Path Links: 2 7 
+Connection from Rank 3 to Rank 1, Path: 3 8 1 , Path Links: 6 3 
+--------------------------------
+Group ID: 6, Type: DP
+Ranks in group: 
+Rank ID: 4, TP: 0, DP: 0, PP: 1 TP Group ID: 2, DP Group ID: 6, PP Fwd Group ID: None, PP Bwd Group ID: 9, Host ID: 4
+Rank ID: 6, TP: 0, DP: 1, PP: 1 TP Group ID: 3, DP Group ID: 6, PP Fwd Group ID: None, PP Bwd Group ID: 11, Host ID: 6
+Connections: Connection from Rank 4 to Rank 6, Path: 4 8 6 , Path Links: 8 13 
+Connection from Rank 6 to Rank 4, Path: 6 8 4 , Path Links: 12 9 
+--------------------------------
+Group ID: 7, Type: DP
+Ranks in group: 
+Rank ID: 5, TP: 1, DP: 0, PP: 1 TP Group ID: 2, DP Group ID: 7, PP Fwd Group ID: None, PP Bwd Group ID: 13, Host ID: 5
+Rank ID: 7, TP: 1, DP: 1, PP: 1 TP Group ID: 3, DP Group ID: 7, PP Fwd Group ID: None, PP Bwd Group ID: 15, Host ID: 7
+Connections: Connection from Rank 5 to Rank 7, Path: 5 8 7 , Path Links: 10 15 
+Connection from Rank 7 to Rank 5, Path: 7 8 5 , Path Links: 14 11 
+--------------------------------
+Group ID: 8, Type: PP
+Ranks in group: 
+Rank ID: 0, TP: 0, DP: 0, PP: 0 TP Group ID: 0, DP Group ID: 4, PP Fwd Group ID: 8, PP Bwd Group ID: None, Host ID: 0
+Rank ID: 4, TP: 0, DP: 0, PP: 1 TP Group ID: 2, DP Group ID: 6, PP Fwd Group ID: None, PP Bwd Group ID: 9, Host ID: 4
+Connections: Connection from Rank 0 to Rank 4, Path: 0 8 4 , Path Links: 0 9 
+--------------------------------
+Group ID: 9, Type: PP
+Ranks in group: 
+Rank ID: 4, TP: 0, DP: 0, PP: 1 TP Group ID: 2, DP Group ID: 6, PP Fwd Group ID: None, PP Bwd Group ID: 9, Host ID: 4
+Rank ID: 0, TP: 0, DP: 0, PP: 0 TP Group ID: 0, DP Group ID: 4, PP Fwd Group ID: 8, PP Bwd Group ID: None, Host ID: 0
+Connections: Connection from Rank 4 to Rank 0, Path: 4 8 0 , Path Links: 8 1 
+--------------------------------
+Group ID: 10, Type: PP
+Ranks in group: 
+Rank ID: 2, TP: 0, DP: 1, PP: 0 TP Group ID: 1, DP Group ID: 4, PP Fwd Group ID: 10, PP Bwd Group ID: None, Host ID: 2
+Rank ID: 6, TP: 0, DP: 1, PP: 1 TP Group ID: 3, DP Group ID: 6, PP Fwd Group ID: None, PP Bwd Group ID: 11, Host ID: 6
+Connections: Connection from Rank 2 to Rank 6, Path: 2 8 6 , Path Links: 4 13 
+--------------------------------
+Group ID: 11, Type: PP
+Ranks in group: 
+Rank ID: 6, TP: 0, DP: 1, PP: 1 TP Group ID: 3, DP Group ID: 6, PP Fwd Group ID: None, PP Bwd Group ID: 11, Host ID: 6
+Rank ID: 2, TP: 0, DP: 1, PP: 0 TP Group ID: 1, DP Group ID: 4, PP Fwd Group ID: 10, PP Bwd Group ID: None, Host ID: 2
+Connections: Connection from Rank 6 to Rank 2, Path: 6 8 2 , Path Links: 12 5 
+--------------------------------
+Group ID: 12, Type: PP
+Ranks in group: 
+Rank ID: 1, TP: 1, DP: 0, PP: 0 TP Group ID: 0, DP Group ID: 5, PP Fwd Group ID: 12, PP Bwd Group ID: None, Host ID: 1
+Rank ID: 5, TP: 1, DP: 0, PP: 1 TP Group ID: 2, DP Group ID: 7, PP Fwd Group ID: None, PP Bwd Group ID: 13, Host ID: 5
+Connections: Connection from Rank 1 to Rank 5, Path: 1 8 5 , Path Links: 2 11 
+--------------------------------
+Group ID: 13, Type: PP
+Ranks in group: 
+Rank ID: 5, TP: 1, DP: 0, PP: 1 TP Group ID: 2, DP Group ID: 7, PP Fwd Group ID: None, PP Bwd Group ID: 13, Host ID: 5
+Rank ID: 1, TP: 1, DP: 0, PP: 0 TP Group ID: 0, DP Group ID: 5, PP Fwd Group ID: 12, PP Bwd Group ID: None, Host ID: 1
+Connections: Connection from Rank 5 to Rank 1, Path: 5 8 1 , Path Links: 10 3 
+--------------------------------
+Group ID: 14, Type: PP
+Ranks in group: 
+Rank ID: 3, TP: 1, DP: 1, PP: 0 TP Group ID: 1, DP Group ID: 5, PP Fwd Group ID: 14, PP Bwd Group ID: None, Host ID: 3
+Rank ID: 7, TP: 1, DP: 1, PP: 1 TP Group ID: 3, DP Group ID: 7, PP Fwd Group ID: None, PP Bwd Group ID: 15, Host ID: 7
+Connections: Connection from Rank 3 to Rank 7, Path: 3 8 7 , Path Links: 6 15 
+--------------------------------
+Group ID: 15, Type: PP
+Ranks in group: 
+Rank ID: 7, TP: 1, DP: 1, PP: 1 TP Group ID: 3, DP Group ID: 7, PP Fwd Group ID: None, PP Bwd Group ID: 15, Host ID: 7
+Rank ID: 3, TP: 1, DP: 1, PP: 0 TP Group ID: 1, DP Group ID: 5, PP Fwd Group ID: 14, PP Bwd Group ID: None, Host ID: 3
+Connections: Connection from Rank 7 to Rank 3, Path: 7 8 3 , Path Links: 14 7 
+--------------------------
+Simulator:
+Tasks: 24
+---------------------------
+GroupTask: Group: 0, GroupType: TP, Group Senders: 0 1 , Group Receivers: 0 1 , Waiting collectives: ; Accumulating collectives: 
+Active collective: None
+Events: 0: 
+---------------------------
+GroupTask: Group: 1, GroupType: TP, Group Senders: 2 3 , Group Receivers: 2 3 , Waiting collectives: ; Accumulating collectives: 
+Active collective: None
+Events: 0: 
+---------------------------
+GroupTask: Group: 2, GroupType: TP, Group Senders: 4 5 , Group Receivers: 4 5 , Waiting collectives: ; Accumulating collectives: 
+Active collective: None
+Events: 0: 
+---------------------------
+GroupTask: Group: 3, GroupType: TP, Group Senders: 6 7 , Group Receivers: 6 7 , Waiting collectives: ; Accumulating collectives: 
+Active collective: None
+Events: 0: 
+---------------------------
+GroupTask: Group: 4, GroupType: DP, Group Senders: 0 2 , Group Receivers: 0 2 , Waiting collectives: ; Accumulating collectives: 
+Active collective: None
+Events: 0: 
+---------------------------
+GroupTask: Group: 5, GroupType: DP, Group Senders: 1 3 , Group Receivers: 1 3 , Waiting collectives: ; Accumulating collectives: 
+Active collective: None
+Events: 0: 
+---------------------------
+GroupTask: Group: 6, GroupType: DP, Group Senders: 4 6 , Group Receivers: 4 6 , Waiting collectives: ; Accumulating collectives: 
+Active collective: None
+Events: 0: 
+---------------------------
+GroupTask: Group: 7, GroupType: DP, Group Senders: 5 7 , Group Receivers: 5 7 , Waiting collectives: ; Accumulating collectives: 
+Active collective: None
+Events: 0: 
+---------------------------
+GroupTask: Group: 8, GroupType: PP, Group Senders: 0 , Group Receivers: 4 , Waiting collectives: ; Accumulating collectives: 
+Active collective: None
+Events: 0: 
+---------------------------
+GroupTask: Group: 9, GroupType: PP, Group Senders: 4 , Group Receivers: 0 , Waiting collectives: ; Accumulating collectives: 
+Active collective: None
+Events: 0: 
+---------------------------
+GroupTask: Group: 10, GroupType: PP, Group Senders: 2 , Group Receivers: 6 , Waiting collectives: ; Accumulating collectives: 
+Active collective: None
+Events: 0: 
+---------------------------
+GroupTask: Group: 11, GroupType: PP, Group Senders: 6 , Group Receivers: 2 , Waiting collectives: ; Accumulating collectives: 
+Active collective: None
+Events: 0: 
+---------------------------
+GroupTask: Group: 12, GroupType: PP, Group Senders: 1 , Group Receivers: 5 , Waiting collectives: ; Accumulating collectives: 
+Active collective: None
+Events: 0: 
+---------------------------
+GroupTask: Group: 13, GroupType: PP, Group Senders: 5 , Group Receivers: 1 , Waiting collectives: ; Accumulating collectives: 
+Active collective: None
+Events: 0: 
+---------------------------
+GroupTask: Group: 14, GroupType: PP, Group Senders: 3 , Group Receivers: 7 , Waiting collectives: ; Accumulating collectives: 
+Active collective: None
+Events: 0: 
+---------------------------
+GroupTask: Group: 15, GroupType: PP, Group Senders: 7 , Group Receivers: 3 , Waiting collectives: ; Accumulating collectives: 
+Active collective: None
+Events: 0: 
+---------------------------
+RankTask: Rank: 0, State: PP_WAIT, Microbatch: 1, Remaining time: 0, Events: 5: <RECV, PP, 1> <RECV, PP, 2> <RECV, PP, 3> <RECV, PP, 4> <RECV, PP, 5> 
+---------------------------
+RankTask: Rank: 1, State: PP_WAIT, Microbatch: 1, Remaining time: 0, Events: 5: <RECV, PP, 1> <RECV, PP, 2> <RECV, PP, 3> <RECV, PP, 4> <RECV, PP, 5> 
+---------------------------
+RankTask: Rank: 2, State: PP_WAIT, Microbatch: 1, Remaining time: 0, Events: 5: <RECV, PP, 1> <RECV, PP, 2> <RECV, PP, 3> <RECV, PP, 4> <RECV, PP, 5> 
+---------------------------
+RankTask: Rank: 3, State: PP_WAIT, Microbatch: 1, Remaining time: 0, Events: 5: <RECV, PP, 1> <RECV, PP, 2> <RECV, PP, 3> <RECV, PP, 4> <RECV, PP, 5> 
+---------------------------
+RankTask: Rank: 4, State: PP_WAIT, Microbatch: 1, Remaining time: 0, Events: 6: <RECV, PP, -1> <RECV, PP, -2> <RECV, PP, -3> <RECV, PP, -4> <RECV, PP, -5> <SENT, PP, -5> 
+---------------------------
+RankTask: Rank: 5, State: PP_WAIT, Microbatch: 1, Remaining time: 0, Events: 6: <RECV, PP, -1> <RECV, PP, -2> <RECV, PP, -3> <RECV, PP, -4> <RECV, PP, -5> <SENT, PP, -5> 
+---------------------------
+RankTask: Rank: 6, State: PP_WAIT, Microbatch: 1, Remaining time: 0, Events: 6: <RECV, PP, -1> <RECV, PP, -2> <RECV, PP, -3> <RECV, PP, -4> <RECV, PP, -5> <SENT, PP, -5> 
+---------------------------
+RankTask: Rank: 7, State: PP_WAIT, Microbatch: 1, Remaining time: 0, Events: 6: <RECV, PP, -1> <RECV, PP, -2> <RECV, PP, -3> <RECV, PP, -4> <RECV, PP, -5> <SENT, PP, -5> 
+--------------------------
+===========================
+Simulation finished
+Global Time: 28.7
+---------------------------
