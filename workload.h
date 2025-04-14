@@ -27,12 +27,12 @@ class Rank {
 public:
     int id;
     int tp, dp, pp;
-    Rank(int id, int tp, int dp, int pp) : id(id), tp(tp), dp(dp), pp(pp) {}
+    Rank(int id, int pp, int dp, int tp) : id(id), pp(pp), dp(dp), tp(tp) {}
 
     Group *tpGroup, *ppFwdGroup, *ppBwdGroup, *dpGroup;
     Node* host;
 
-    // simualtor related
+    // simulator related
     RankTask* rankTask;
 
     void print();
@@ -43,7 +43,9 @@ public:
     int id;
     GroupType type;
     int pp, dp, tp;
-    Group(int id, GroupType type, int pp, int dp, int tp) : id(id), type(type), pp(pp), dp(dp), tp(tp) {}
+    Group(int id, GroupType type, int pp, int dp, int tp) : id(id), type(type), pp(pp), dp(dp), tp(tp) {
+
+    }
     
     vector<Rank*> ranks;  // directed links from Group
     vector<Connection*> connections;  // directed links from Group

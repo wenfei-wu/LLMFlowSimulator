@@ -54,11 +54,19 @@ Collective::Collective(Group* group, int microbatch, int accumulatedSize) :
 
 RankTask::RankTask(Rank* rank) : rank(rank) {
     rank->rankTask = this;
+    this->rank = rank;
+    this->dpGroupTask = nullptr; // corrected assignment
+    this->tpGroupTask = nullptr;  // corrected assignment
+    this->ppFwdGroupTask = nullptr; // corrected assignment
+    this->ppBwdGroupTask = nullptr; // corrected assignment
 }
 
 GroupTask::GroupTask(Group* group) : group(group) {
     group->groupTask = this;
+    this->group = group;
     activeCollective = nullptr;
+    this->senders.clear();
+    this->receivers.clear();
 }
 
 
@@ -467,11 +475,20 @@ void Simulator::initialize(){
         tasks.push_back(task);
     }
 
+    // cout << "Tasks Created: " << tasks.size() << endl;
+
     // associate tasks;
     for(auto rank : workload->ranks) {
+        // cout << "Rank: " << rank->id << endl;
+        // rank->print();
         RankTask* task = rank->rankTask;
         GroupTask* tpGroupTask = rank->tpGroup->groupTask;
         GroupTask* dpGroupTask = rank->dpGroup->groupTask;
+
+        // cout << rank->tpGroup->id << endl;
+        // cout << rank->dpGroup->id << endl;
+
+        // cout << "Rank: " << rank->id << ", TP Group: " << tpGroupTask->group->id << ", DP Group: " << dpGroupTask->group->id << endl;
 
         task->tpGroupTask = tpGroupTask;
         task->dpGroupTask = dpGroupTask;
@@ -480,15 +497,22 @@ void Simulator::initialize(){
         dpGroupTask->senders.push_back(task);
         dpGroupTask->receivers.push_back(task);
 
+        // cout << "TP/DP associated" << endl;
+
         if(rank->ppFwdGroup != nullptr){            
             RankTask* fwdReceiverTask = rank->ppFwdGroup->ranks[1]->rankTask;
             GroupTask* ppFwdGroupTask = rank->ppFwdGroup->groupTask;               
             task->ppFwdGroupTask = ppFwdGroupTask;
             ppFwdGroupTask->senders.push_back(task);
             ppFwdGroupTask->receivers.push_back(fwdReceiverTask);
+            // cout << "ppFwd associated" << endl;
         }
 
         if(rank->ppBwdGroup != nullptr){
+            
+            // cout << "ppBwd is not null" << endl;
+            // rank->ppBwdGroup->print();
+
             RankTask* bwdReceiverTask = rank->ppBwdGroup->ranks[1]->rankTask;
             GroupTask* ppBwdGroupTask = rank->ppBwdGroup->groupTask; 
             task->ppBwdGroupTask = ppBwdGroupTask;
@@ -496,6 +520,8 @@ void Simulator::initialize(){
             ppBwdGroupTask->receivers.push_back(bwdReceiverTask);
         }
     }
+
+    // cout << "Tasks Associated" << endl;
 
     // init rank microbatch
     for(auto rankTask : tasks) {

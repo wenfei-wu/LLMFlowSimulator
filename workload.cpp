@@ -79,25 +79,6 @@ void Workload::print(){
 }
 
 
-void Group::createConnections() {
-    // TP or DP
-    if(type == TP || type == DP) {
-        sort(ranks.begin(), ranks.end(), [](Rank* a, Rank* b) {
-            return a->id < b->id;
-        });
-        for(int i = 0; i < ranks.size(); ++i) {
-            Rank* src = ranks[i];
-            Rank* dst = ranks[(i + 1) % ranks.size()]; // circular connection
-            Connection* conn = new Connection(src, dst);
-            connections.push_back(conn);
-        }
-    } else if(type == PP) { // PP
-        Rank* r1 = ranks[0];
-        Rank* r2 = ranks[1];
-        Connection* conn = new Connection(r1, r2);
-        connections.push_back(conn);
-    }
-}
 
 Workload::Workload(int PP, int DP, int TP, int microbatches, 
     double fwdCompTime, double bwdCompTime, double fwdTPSize, double bwdTPSize, 
@@ -112,7 +93,7 @@ Workload::Workload(int PP, int DP, int TP, int microbatches,
     for(int i = 0; i < PP; ++i) {
         for(int j = 0; j < DP; ++j) {
             for(int k = 0; k < TP; ++k) {
-                Rank* rank = new Rank(rankId++, k, j, i);
+                Rank* rank = new Rank(rankId++, i, j, k);
                 ranks.push_back(rank);
                 rankMap[make_tuple(i, j, k)] = rank; // PP, DP, TP
             }
@@ -166,8 +147,12 @@ Workload::Workload(int PP, int DP, int TP, int microbatches,
 
     // cout << "PP, TP, DP: " << PP << ", " << TP << ", " << DP << endl;
 
-    for(int i = 0; i < TP; ++i) {           // TP
-        for(int j = 0; j < DP; ++j) {       // DP
+    for(int j = 0; j < DP; ++j) {               // DP
+        for(int i = 0; i < TP; ++i) {           // TP
+            Rank* first = rankMap[make_tuple(0, j, i)];
+            Rank* last = rankMap[make_tuple(PP-1, j, i)];
+            first->ppBwdGroup = nullptr;  // Changed from == to =
+            last->ppFwdGroup = nullptr;
             for(int k = 0; k < PP - 1; ++k) {  // PP
                 // cout << "PP, TP, DP; k: " << k << ", i: " << i << ", j: " << j << endl;
                 Group *fwdGroup = new Group(groupId++, GroupType::PP, k, i, j);
@@ -186,6 +171,9 @@ Workload::Workload(int PP, int DP, int TP, int microbatches,
         }
     }
 
+    // cout << "Workload Constructor" << endl;
+    // cout << rankMap[make_tuple(0,0,0)]->ppBwdGroup->id << endl;
+
     // cout << "PP group created and associated" << endl;
     
     // create connections
@@ -194,6 +182,27 @@ Workload::Workload(int PP, int DP, int TP, int microbatches,
         group->createConnections();
     }
 
+}
+
+
+void Group::createConnections() {
+    // TP or DP
+    if(type == TP || type == DP) {
+        sort(ranks.begin(), ranks.end(), [](Rank* a, Rank* b) {
+            return a->id < b->id;
+        });
+        for(int i = 0; i < ranks.size(); ++i) {
+            Rank* src = ranks[i];
+            Rank* dst = ranks[(i + 1) % ranks.size()]; // circular connection
+            Connection* conn = new Connection(src, dst);
+            connections.push_back(conn);
+        }
+    } else if(type == PP) { // PP
+        Rank* r1 = ranks[0];
+        Rank* r2 = ranks[1];
+        Connection* conn = new Connection(r1, r2);
+        connections.push_back(conn);
+    }
 }
 
 
