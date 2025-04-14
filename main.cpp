@@ -12,6 +12,11 @@ int main(int argc, char** argv){
     
     // srand(time(nullptr));
     srand(0);
+
+    // get current time
+    // auto start = chrono::high_resolution_clock::now();
+
+    cout << "--------------------------" << endl;
     topology = new Topology();
     // topology->generateFattree(8, 1, 1);
     // topology->generateOneBigSwitch(8, 1); // capacity * factor
@@ -44,7 +49,7 @@ int main(int argc, char** argv){
     //                         1.0     // dpSize
     //                     );
     workload->topology = topology;
-    workload->configurePipeline();
+    workload->configureParallelism();   // 1F1B now
     workload->placement();
     workload->routing();
     // workload->print();

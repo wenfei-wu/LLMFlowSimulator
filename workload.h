@@ -95,7 +95,7 @@ public:
     }
     
     map<tuple<int, int>, int> nextMicrobatch;
-    void configurePipeline();
+    void configureParallelism();
 
     Topology *topology;
     void placement();

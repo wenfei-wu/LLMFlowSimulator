@@ -64,7 +64,6 @@ public:
     int accumulatedInvocations;
     int accumulatedSize;
 
-    double tableTime();
     double stableTime();
     void progress(double time);
 

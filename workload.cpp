@@ -206,7 +206,7 @@ void Group::createConnections() {
 }
 
 
-void Workload::configurePipeline(){
+void Workload::configureParallelism(){
     // generate a graph
     int stages = PP;
     int microbatches = this->microbatches;
