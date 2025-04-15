@@ -1,6 +1,8 @@
 #include "topology.h"
 #include "workload.h"
 #include "simulator.h"
+#include <chrono>
+#include <iostream>
 
 using namespace std;
 
@@ -14,7 +16,7 @@ int main(int argc, char** argv){
     srand(0);
 
     // get current time
-    // auto start = chrono::high_resolution_clock::now();
+    auto start = chrono::high_resolution_clock::now();
 
     cout << "--------------------------" << endl;
     topology = new Topology();
@@ -22,6 +24,9 @@ int main(int argc, char** argv){
     // topology->generateOneBigSwitch(8, 1); // capacity * factor
     topology->generateOneBigSwitch(16*8*8, 400.0*1000000000/8); // capacity * factor
     // topology->print();
+    auto current = chrono::high_resolution_clock::now();
+    cout << "Topology generation Execution Time: " << chrono::duration_cast<chrono::milliseconds>(current - start).count() << " ms" << endl;
+    start = current;
     cout << "--------------------------" << endl;
     
     workload = new Workload(16,      // PP
@@ -54,14 +59,22 @@ int main(int argc, char** argv){
     workload->routing();
     // workload->print();
     // return 0;
+    current = chrono::high_resolution_clock::now();
+    cout << "Workload generation Execution Time: " << chrono::duration_cast<chrono::milliseconds>(current - start).count() << " ms" << endl;
+    start = current;
     cout << "--------------------------" << endl;
     simulator = new Simulator();
     simulator->workload = workload;
     simulator->topology = topology;
     simulator->initialize();
     // simulator->print();    
+    current = chrono::high_resolution_clock::now();
+    cout << "Simulator initialization Execution Time: " << chrono::duration_cast<chrono::milliseconds>(current - start).count() << " ms" << endl;
+    start = current;
     cout << "--------------------------" << endl;
     simulator->run();
+    current = chrono::high_resolution_clock::now();
+    cout << "Simulator run Execution Time: " << chrono::duration_cast<chrono::milliseconds>(current - start).count() << " ms" << endl;
     cout << "--------------------------" << endl;
 
     return 0;
