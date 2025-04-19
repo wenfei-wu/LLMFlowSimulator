@@ -131,7 +131,7 @@ void Topology::generateOneBigSwitch(int switch_radix, double capacity) {
 }
 
 
-vector<Node*> Topology::ECMP(Node* src, Node* dst) {
+vector<Node*> Topology::ECMP(Node* src, Node* dst) {  // Prompt：运行bfs搜索所有路径，并随机返回一条
     vector<vector<Node*>> allPaths;
     queue<vector<Node*>> q;
     unordered_set<Node*> visited;

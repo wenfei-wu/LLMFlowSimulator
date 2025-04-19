@@ -100,7 +100,6 @@ Workload::Workload(int PP, int DP, int TP, int microbatches,
         }
     }
     
-    // cout << "Ranks created: " << ranks.size() << endl;
     // create groups
 
     map<tuple<int, int, int>, Group*> groupMap; // PP, DP, TP
@@ -122,8 +121,6 @@ Workload::Workload(int PP, int DP, int TP, int microbatches,
         }
     }
 
-    // cout << "TP and DP groups created: " << groups.size() << endl;
-
     // associate ranks and groups
     for(auto rank : ranks) {
         int pp = rank->pp;
@@ -140,12 +137,8 @@ Workload::Workload(int PP, int DP, int TP, int microbatches,
         rank->dpGroup = dpGroup;
         dpGroup->ranks.push_back(rank);
     }
-
-    // cout << "TP/DP groups and ranks associated: " << endl;
     
     // enumerate nodes 
-
-    // cout << "PP, TP, DP: " << PP << ", " << TP << ", " << DP << endl;
 
     for(int j = 0; j < DP; ++j) {               // DP
         for(int i = 0; i < TP; ++i) {           // TP
@@ -170,11 +163,6 @@ Workload::Workload(int PP, int DP, int TP, int microbatches,
             }
         }
     }
-
-    // cout << "Workload Constructor" << endl;
-    // cout << rankMap[make_tuple(0,0,0)]->ppBwdGroup->id << endl;
-
-    // cout << "PP group created and associated" << endl;
     
     // create connections
 
@@ -258,11 +246,9 @@ void Workload::configureParallelism(){
             for(j=i+1; j<2*(microbatches+stages-1); j++){
                 if(graph[s][j]!=0) break;
             }
-            // cout << "s: " << s << ", i: " << i << ", j: " << j << endl;
             if(j<2*(microbatches+stages-1)){
                 int from = graph[s][i];
                 int to = graph[s][j];   
-                // cout << "from: " << from << ", to: " << to << endl;  
                 nextMicrobatch[make_tuple(s, from)] = to;          
                 i=j-1;                
             }

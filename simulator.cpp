@@ -227,11 +227,6 @@ int RankTask::handleEvents(){   // < EP, TYPE, MB >
                 it = events.erase(it); continue;
             }
             else {  // RECV
-                // cout << "handleEvents: Rank: " << rank->id <<", state: " << (state == RankState::TP_COMM ? "TP_COMM" : (state == RankState::DP_WAIT ? "DP_WAIT" : "OTHER")) ;
-                // cout << ", microbatch: " << microbatch ;
-                // cout << ", Event: " << (type == GroupType::TP ? "TP" : (type == GroupType::DP ? "DP" : "OTHER")) ;
-                // cout << ", Endpoint: " << (ep == EndpointType::SENT ? "SENT" : "RECV") ;
-                // cout << ", MB: " << mb << endl;
                 // start PP
                 if(state != RankState::TP_COMM){
                     it++; continue;
@@ -239,10 +234,7 @@ int RankTask::handleEvents(){   // < EP, TYPE, MB >
 
                 assert(mb == microbatch);  // otherwise, error
  
-                // cout << "ppFwdGroupTask: " << (ppFwdGroupTask == nullptr ? "None" : std::to_string(ppFwdGroupTask->group->id)) << endl;
                 if(microbatch > 0 && ppFwdGroupTask != nullptr){ // forward
-                    // cout << "RankTask: " << rank->id << ", microbatch: " << microbatch << endl;
-                    // cout << "RankTask: " << rank->id << ", ppFwdGroupTask: " << ppFwdGroupTask->group->id << endl;
                     ppFwdGroupTask->events.push_back(make_tuple(rank->id, microbatch));
                 }
                 else if(microbatch < 0 && ppBwdGroupTask != nullptr){ // backward
@@ -309,14 +301,11 @@ int RankTask::handleEvents(){   // < EP, TYPE, MB >
 }
 
 int GroupTask::handleEvents(){  // < From, MB >
-    // cout << "GroupTask: " << group->id << ", handle events" << endl;
-    // printStates();
     // get from, mb
     int countEvents = events.size();
     for (auto it = events.begin(); it != events.end(); ) {
         int from = get<0>(*it);  // 事件来源
         int mb = get<1>(*it);    // 微批次
-        // cout << "From Rank " << from << ", MB: " << mb << endl;
         // 检查是否有等待的集合操作
         if (accumulatingCollectives.find(mb) == accumulatingCollectives.end()) {
             Collective* collective = new Collective(group, mb, group->type == GroupType::PP ? 1 : group->ranks.size());
@@ -328,8 +317,6 @@ int GroupTask::handleEvents(){  // < From, MB >
         // 移除已处理的事件
         it = events.erase(it);
     }
-    // cout << "GroupTask: " << group->id << ", handle events done" << endl;
-    // printStates();
     for(auto it = accumulatingCollectives.begin(); it != accumulatingCollectives.end(); ) {
         int mb = it->first;
         Collective* collective = it->second;
@@ -343,15 +330,11 @@ int GroupTask::handleEvents(){  // < From, MB >
             ++it;
         }
     }
-    // cout << "GroupTask: " << group->id << ", moved to waiting" << endl;
-    // printStates();
     // 如果没有活动的集合操作，尝试激活一个等待的集合操作
     if (activeCollective == nullptr && !waitingCollectives.empty()) {
         activeCollective = waitingCollectives.front();
         waitingCollectives.erase(waitingCollectives.begin());
     }
-    // cout << "GroupTask: " << group->id << ", moved to active" << endl;
-    // printStates();
     return countEvents - events.size();
 }
 
@@ -408,7 +391,6 @@ void Collective::progress(double time){
 }
 
 void GroupTask::progress(double time){
-    // cout << "GroupTask progress: " << group->id  << endl;
     // move waiting to active
     if(activeCollective == nullptr) {
         if(!waitingCollectives.empty()) {
@@ -445,9 +427,6 @@ void GroupTask::progress(double time){
 
 
 void RankTask::progress(double time){
-    // cout << "RankTask progress: " << rank->id << " " << microbatch << endl;
-    // printStates();
-
     switch(state) {
         case COMPUTE:
             remainingTime -= time;
@@ -475,20 +454,11 @@ void Simulator::initialize(){
         tasks.push_back(task);
     }
 
-    // cout << "Tasks Created: " << tasks.size() << endl;
-
     // associate tasks;
     for(auto rank : workload->ranks) {
-        // cout << "Rank: " << rank->id << endl;
-        // rank->print();
         RankTask* task = rank->rankTask;
         GroupTask* tpGroupTask = rank->tpGroup->groupTask;
         GroupTask* dpGroupTask = rank->dpGroup->groupTask;
-
-        // cout << rank->tpGroup->id << endl;
-        // cout << rank->dpGroup->id << endl;
-
-        // cout << "Rank: " << rank->id << ", TP Group: " << tpGroupTask->group->id << ", DP Group: " << dpGroupTask->group->id << endl;
 
         task->tpGroupTask = tpGroupTask;
         task->dpGroupTask = dpGroupTask;
@@ -497,22 +467,15 @@ void Simulator::initialize(){
         dpGroupTask->senders.push_back(task);
         dpGroupTask->receivers.push_back(task);
 
-        // cout << "TP/DP associated" << endl;
-
         if(rank->ppFwdGroup != nullptr){            
             RankTask* fwdReceiverTask = rank->ppFwdGroup->ranks[1]->rankTask;
             GroupTask* ppFwdGroupTask = rank->ppFwdGroup->groupTask;               
             task->ppFwdGroupTask = ppFwdGroupTask;
             ppFwdGroupTask->senders.push_back(task);
             ppFwdGroupTask->receivers.push_back(fwdReceiverTask);
-            // cout << "ppFwd associated" << endl;
         }
 
         if(rank->ppBwdGroup != nullptr){
-            
-            // cout << "ppBwd is not null" << endl;
-            // rank->ppBwdGroup->print();
-
             RankTask* bwdReceiverTask = rank->ppBwdGroup->ranks[1]->rankTask;
             GroupTask* ppBwdGroupTask = rank->ppBwdGroup->groupTask; 
             task->ppBwdGroupTask = ppBwdGroupTask;
@@ -520,8 +483,6 @@ void Simulator::initialize(){
             ppBwdGroupTask->receivers.push_back(bwdReceiverTask);
         }
     }
-
-    // cout << "Tasks Associated" << endl;
 
     // init rank microbatch
     for(auto rankTask : tasks) {
@@ -560,36 +521,21 @@ void Simulator::initialize(){
 }
 
 void Simulator::updateStates(){
-    // cout << "update states" << endl;
     // collective active flows
     set<Flow*> activeFlows;
     for(auto task : tasks){
 
         if(dynamic_cast<GroupTask*>(task) != nullptr) {
             GroupTask* groupTask = dynamic_cast<GroupTask*>(task);
-            // cout << "group task: " << groupTask->group->id <<endl;
             if(groupTask->activeCollective != nullptr) {
-                // cout << "Collective Flows: " << groupTask->activeCollective->flows.size() << endl;
                 for(auto flow : groupTask->activeCollective->flows) {
                     activeFlows.insert(flow);
                 }
             }
         }
-
-        // cout << "--updateStates--" << endl;
-        // task->printStates();
-        // cout << "--" << endl;
     }
-
-    // cout << "Active flows: ";
-    // for(auto flow : activeFlows) {
-    //     cout << flow->src->id << "->" << flow->dst->id << " ";
-    // }
-    // cout << endl;
-
     // update flow throughput
     for(auto flow : activeFlows){
-        // cout << "a flow " << endl;
         flow->throughput = 0;
     }
 
@@ -597,7 +543,6 @@ void Simulator::updateStates(){
     set<Link*> activeLinks;
     for(auto flow : activeFlows){
         for(auto link : flow->pathLinks){
-            // cout << "flow: "<< flow->src->id <<"->" <<flow->dst->id  << ", link: " << link->src->id << "->" << link->dst->id << endl;
             activeLinks.insert(link);
         }
     }
@@ -614,12 +559,6 @@ void Simulator::updateStates(){
             link->flows.insert(flow);
         }
     }
-
-    // cout << "Active links: " << endl;
-    // for(auto link : activeLinks) {
-    //     cout << link->src->id << "->" << link->dst->id << " ";
-    // }
-    // cout << endl;
 
     // update throughput
     while(!activeFlows.empty() && !activeLinks.empty()) { // water filling
@@ -673,7 +612,6 @@ void Simulator::updateStates(){
 
     // if active flows is not empty, it is internal, it completes immediately
     for(auto flow : activeFlows) {
-        // cout << "remaing active flows " << flow->src->id << "->" << flow->dst->id << endl;
         flow->throughput = numeric_limits<double>::infinity();
         // flow->remainingSize = 0;
     }
@@ -682,7 +620,6 @@ void Simulator::updateStates(){
 void Simulator::run(){
     globalTime=0;
     cout << "===========================" << endl;
-    // printStates();
     int round = 0;
     int targetRound = -1;    
     while(true){

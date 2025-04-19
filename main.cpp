@@ -29,30 +29,30 @@ int main(int argc, char** argv){
     start = current;
     cout << "--------------------------" << endl;
     
-    workload = new Workload(16,      // PP
-                            8,      // DP      
-                            8,      // TP 
-                            192,      // microbatches   
-                            0.005782,    // fwdCompTime * factor
-                            0.015002,    // bwdCompTime * factor
-                            1056964608,    // fwdTPSize
-                            1056964608,    // bwdTPSize
-                            11796480,    // fwdPPSize
-                            11796480,    // bwdPPSize
-                            5121446400     // dpSize
-                        );
-    // workload = new Workload(2,      // PP
-    //                         2,      // DP      
-    //                         2,      // TP 
-    //                         5,      // microbatches   
-    //                         0.1,    // fwdCompTime * factor
-    //                         0.1,    // bwdCompTime * factor
-    //                         1.0,    // fwdTPSize
-    //                         1.0,    // bwdTPSize
-    //                         1.0,    // fwdPPSize
-    //                         1.0,    // bwdPPSize
-    //                         1.0     // dpSize
+    // workload = new Workload(16,      // PP
+    //                         8,      // DP      
+    //                         8,      // TP 
+    //                         192,      // microbatches   
+    //                         0.005782,    // fwdCompTime * factor
+    //                         0.015002,    // bwdCompTime * factor
+    //                         1056964608,    // fwdTPSize
+    //                         1056964608,    // bwdTPSize
+    //                         11796480,    // fwdPPSize
+    //                         11796480,    // bwdPPSize
+    //                         5121446400     // dpSize
     //                     );
+    workload = new Workload(2,      // PP
+                            2,      // DP      
+                            2,      // TP 
+                            5,      // microbatches   
+                            0.1,    // fwdCompTime * factor
+                            0.1,    // bwdCompTime * factor
+                            1.0,    // fwdTPSize
+                            1.0,    // bwdTPSize
+                            1.0,    // fwdPPSize
+                            1.0,    // bwdPPSize
+                            1.0     // dpSize
+                        );
     workload->topology = topology;
     workload->configureParallelism();   // 1F1B now
     workload->placement();
